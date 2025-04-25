@@ -40,7 +40,7 @@ const getColor = (status: Point["completeness"]) => {
   return "red";
 };
 
-// Función auxiliar para verificar si un punto está dentro de un polígono (departamento)
+
 const isPointInPolygon = (point: [number, number], polygon: number[][][]): boolean => {
   const [x, y] = point;
   let inside = false;

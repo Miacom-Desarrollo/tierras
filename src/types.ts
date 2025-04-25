@@ -7,6 +7,8 @@ export interface Point {
   }
   
   export interface Department {
+    divipola_n?: number;
+    name?: string;
     CD_DPTO: string;
     NOMBRE_DPT: string;
     poblacion?: number;
