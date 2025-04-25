@@ -39,7 +39,7 @@ const ModalInfo: React.FC<ModalInfoProps> = ({ isOpen, onClose, data }) => {
   }
 
   if (data.type === "department-points") {
-    const { departamento, puntos } = data.data as { departamento: { name: string }; puntos: Point[] };
+    const { departamento, puntos } = data.data as unknown as { departamento: { name: string }; puntos: Point[] };
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center overflow-auto">
         <div className="bg-white p-6 rounded-md w-96 max-w-full">

@@ -55,18 +55,29 @@ const isPointInPolygon = (point: [number, number], polygon: number[][][]): boole
 
 export default function MapaColombia() {
   const [modalData, setModalData] = useState<ModalData | null>(null);
-
-  const handleDepartmentClick = (geo: { properties: Department; geometry: { coordinates: number[][][] } }) => {
-
+  const handleDepartmentClick = (geo: { properties: Department; geometry: { coordinates: number[][][] | number[][] } }) => {
     const departamento = geo.properties;
-    console.log(departamento,name);
-    const coordenadasDepartamento = geo.geometry.coordinates;
-    // Filtrar los puntos que se encuentran dentro del departamento ক্লিকado
+    const coords = geo.geometry.coordinates;
+  
+    let coordenadasDepartamento: number[][][];
+  
+    // Verificar si es number[][] o number[][][]
+    if (Array.isArray(coords[0][0])) {
+      // Es number[][][]
+      coordenadasDepartamento = coords as number[][][];
+    } else {
+      // Es number[][]
+      coordenadasDepartamento = [coords as number[][]];
+    }
+  
     const puntosEnDepartamento = puntos.filter((punto) =>
       isPointInPolygon(punto.coordinates, coordenadasDepartamento)
     );
+  
     setModalData({ type: "department-points", data: { departamento, puntos: puntosEnDepartamento } });
   };
+  
+  
   const handlePointClick = (p: Point) => {
     setModalData({ type: "point", data: p });
   };
@@ -84,7 +95,7 @@ export default function MapaColombia() {
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                onClick={() => handleDepartmentClick(geo as { properties: Department; geometry: { coordinates: number[][] } })}
+                onClick={() => handleDepartmentClick(geo)}
                 style={{
                   default: { fill: "#E0E0E0", outline: "none" },
                   hover: { fill: "#A3A3A3", outline: "none" },

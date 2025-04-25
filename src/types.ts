@@ -16,8 +16,10 @@ export interface Point {
   }
   
   export type ModalData =
-    | { type: "point"; data: Point }
-    | { type: "department"; data: Department };
+  | { type: "point"; data: Point }
+  | { type: "department"; data: Department }
+  | { type: "department-points"; data: { departamento: Department; puntos: Point[] } }; 
+
    export type GeographyFeature = {
     rsmKey: any;
     type: string;
