@@ -9,19 +9,109 @@ import topo from "../assets/colombia-departments-topo.json";
 
 import ModalInfo from "./ModalInfo";
 import { Department, GeographyFeature, ModalData, Point } from "../types";
-// Componente Header
+
+
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <header className="bg-blue-700 text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Mapa de Tierras</h1>
-        <nav>
-          <ul className="flex space-x-6">
-            <li><a href="#" className="hover:underline">Inicio</a></li>
-            <li><a href="#" className="hover:underline">Departamentos</a></li>
-            <li><a href="#" className="hover:underline">Acerca de</a></li>
-          </ul>
-        </nav>
+    <header className="fixed w-full top-0 z-50">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex justify-between items-center backdrop-blur-md bg-white/30 border-b border-white/10 shadow-lg rounded-b-xl p-3 sm:p-4">
+          {/* Logo/Título - Mobile & Desktop */}
+          <div className="flex items-center space-x-2">
+            <svg className="w-7 h-7 sm:w-8 sm:h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+            </svg>
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+              GeoColombia
+            </h1>
+          </div>
+
+          {/* Menú Desktop - Oculta en mobile */}
+          <nav className="hidden md:block">
+            <ul className="flex space-x-6 lg:space-x-8">
+              <li>
+                <a href="#" className="text-white hover:text-blue-200 transition-colors duration-300 font-medium flex items-center text-sm lg:text-base">
+                  <span className="mr-1 hidden lg:inline">🏠</span> Inicio
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-white hover:text-blue-200 transition-colors duration-300 font-medium flex items-center text-sm lg:text-base">
+                  <span className="mr-1 hidden lg:inline">🗺️</span> Departamentos
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-white hover:text-blue-200 transition-colors duration-300 font-medium flex items-center text-sm lg:text-base">
+                  <span className="mr-1 hidden lg:inline">ℹ️</span> Acerca de
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Botón Desktop - Oculta en mobile */}
+          <button className="hidden md:block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md transition-all duration-300 transform hover:scale-105 text-sm lg:text-base">
+            Explorar ↗
+          </button>
+
+          {/* Menú Hamburguesa - Solo mobile */}
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-white focus:outline-none"
+            aria-label="Menu"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* Menú Mobile - Desplegable */}
+        {isOpen && (
+          <div className="md:hidden backdrop-blur-md bg-white/20 mt-2 rounded-xl shadow-lg p-4 animate-fadeIn">
+            <ul className="space-y-3">
+              <li>
+                <a 
+                  href="#" 
+                  className="block text-white hover:bg-white/10 rounded-lg p-3 transition-colors duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="mr-2">🏠</span> Inicio
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#" 
+                  className="block text-white hover:bg-white/10 rounded-lg p-3 transition-colors duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="mr-2">🗺️</span> Departamentos
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#" 
+                  className="block text-white hover:bg-white/10 rounded-lg p-3 transition-colors duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="mr-2">ℹ️</span> Acerca de
+                </a>
+              </li>
+              <li>
+                <button 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md transition-all duration-300 mt-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Explorar ↗
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </header>
   );
@@ -200,14 +290,14 @@ export default function MapaColombia() {
 
   return (
     <>
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col w-full">
       <Header />
       
       <main className="flex-grow container mx-auto p-4 flex items-center justify-center">
       <ComposableMap
           projection="geoMercator"
           projectionConfig={{ scale: 1800, center: [-74, 4.5] }}
-          style={{ width: "50vw", height: "100%" }}
+          style={{ width: "100vw", height: "100%" }}
         >
           <Geographies geography={topo}>
             {({ geographies }: { geographies: GeographyFeature[] }) =>
