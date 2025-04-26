@@ -37,7 +37,7 @@ const DEPARTAMENTOS: Record<string, string> = {
   "91": "Amazonas",
   "94": "Guainía",
   "95": "Guaviare",
-  "97": "Vargas",
+  "97": "Vaupes",
   "99": "Arauca",
 
 
@@ -58,7 +58,7 @@ const ModalInfo: React.FC<ModalInfoProps> = ({ isOpen, onClose, data }) => {
   if (data.type === "point") {
     const pointData = data.data as Point;
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center text-gray-900 overflow-auto">
      <div className={` p-6 rounded-md ${getColor(pointData.completeness)}`}>
           <h2 className="text-lg font-bold mb-2">{pointData.name}</h2>
           {pointData.datos && (
@@ -85,7 +85,7 @@ const nombreDepartamento = divipola ? DEPARTAMENTOS[divipola] || `Departamento $
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center overflow-auto">
         <div className="bg-white p-6 rounded-md w-96 max-w-full">
-        <h2 className="text-lg font-bold mb-4">{ nombreDepartamento}</h2>
+        <h2 className="text-lg font-bold mb-4 text-gray-900">{ nombreDepartamento}</h2>
 
           <ul>
             {puntos.map((punto) => (
